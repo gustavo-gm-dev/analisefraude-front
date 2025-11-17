@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Fraude</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div id="tela-login" class="tela">
+            <h2>Login</h2>
+            <input type="text" id="cpf" placeholder="CPF" value="12345678900">
+            <input type="password" id="senha" placeholder="Senha" value="1234">
+            <select id="metodoLogin">
+                <option value="senha">Login com Senha</option>
+                <option value="biometria">Login com Biometria</option>
+            </select>
+            <button id="btn-login">Entrar</button>
+        </div>
+
+        <div id="tela-home" class="tela" style="display: none;">
+            <h2>Home</h2>
+            <p>Login efetuado com sucesso!</p>
+            <button id="btn-ir-pix">Área PIX</button>
+        </div>
+
+        <div id="tela-pix" class="tela" style="display: none;">
+            <h2>Fazer PIX</h2>
+            <input type="number" id="valor" placeholder="Valor (R$)">
+            <input type="text" id="chavePix" placeholder="Chave PIX">
+            
+            <select id="simuladorSensor">
+                <option value="normal">Segurando o celular (Normal)</option>
+                <option value="mesa">Celular na mesa (Suspeito)</option>
+                <option value="bot">Emulador/Bot (Suspeito)</option>
+            </select>
+            
+            <button id="btn-confirmar-pix">Confirmar Transação</button>
+        </div>
+
+        <div id="tela-resultado" class="tela" style="display: none;">
+            <h2 id="resultado-titulo"></h2>
+            <p id="resultado-motivo"></p>
+            <button id="btn-voltar">Voltar ao Login</button>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
