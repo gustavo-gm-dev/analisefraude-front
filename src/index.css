@@ -28,22 +28,28 @@ body {
   }
 
   .mobile-frame::before {
-    @apply absolute top-0 left-1/2 transform -translate-x-1/2 w-52 h-8 bg-black rounded-b-3xl;
+    @apply absolute top-0 left-1/2 transform -translate-x-1/2 bg-black rounded-b-2xl;
     content: '';
+    width: 160px;
+    height: 24px;
     z-index: 100;
   }
 
   .status-bar {
-    @apply bg-gradient-to-b from-gray-800 to-black flex justify-between items-center h-11 border-b border-gray-700 text-white text-xs z-50 pt-8;
+    @apply bg-gradient-to-b from-gray-800 to-black flex justify-between items-center px-4 text-white text-xs z-50;
+    height: 44px;
+    padding-top: 30px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #333;
   }
 
   .status-bar-left,
   .status-bar-right {
-    @apply flex gap-1 items-center;
+    @apply flex gap-1.5 items-center text-xs font-medium;
   }
 
   .status-bar-center {
-    @apply flex-1 text-center font-medium;
+    @apply flex-1 text-center font-semibold text-xs;
   }
 
   .btn-primary {

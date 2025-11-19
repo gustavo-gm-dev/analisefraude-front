@@ -43,7 +43,7 @@ const AppContainer = () => {
             <span>9:41</span>
           </div>
           <div className="status-bar-center">
-            <span>🔒 Seguro</span>
+            🔒 Seguro
           </div>
           <div className="status-bar-right">
             <span>📶</span>
