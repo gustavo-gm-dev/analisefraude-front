@@ -1,7 +1,30 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNotification } from '../../contexts/NotificationContext';
+import { apiService } from '../../utils/helpers';
 
 const HomeScreen = ({ onGoToPix, onLogout }) => {
   const [saldoVisivel, setSaldoVisivel] = useState(true);
+  const { token } = useAuth();
+  const { info, error } = useNotification();
+  const [loading, setLoading] = useState(false);
+
+  const handleTransferencia = async () => {
+    setLoading(true);
+    info('⏳ Preparando transferência...');
+
+    try {
+      console.log('DEBUG - Chamando iniciarPix com token:', token);
+      await apiService.iniciarPix(token);
+      console.log('DEBUG - iniciarPix sucesso! Indo para PIX...');
+      onGoToPix();
+    } catch (err) {
+      console.error('DEBUG - Erro na iniciarPix:', err);
+      error('❌ Erro ao iniciar PIX. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full bg-white pb-4">
@@ -29,9 +52,9 @@ const HomeScreen = ({ onGoToPix, onLogout }) => {
       </div>
 
       <div className="menu-grid">
-        <button className="menu-item" onClick={onGoToPix}>
+        <button className="menu-item" onClick={handleTransferencia} disabled={loading}>
           <div className="menu-icon">💸</div>
-          <div className="menu-label">Transferência</div>
+          <div className="menu-label">{loading ? 'Carregando...' : 'Transferência'}</div>
         </button>
         <button className="menu-item">
           <div className="menu-icon">💳</div>

@@ -93,21 +93,35 @@ export const apiService = {
       headers: { 'Authorization': token }
     });
 
+    console.log('DEBUG iniciarPix - Status:', response.status);
+    console.log('DEBUG iniciarPix - OK:', response.ok);
+    
     if (!response.ok) {
-      throw new Error('Erro ao iniciar PIX');
+      console.error('DEBUG iniciarPix - Erro! Status:', response.status);
+      throw new Error(`Erro ao iniciar PIX: ${response.status}`);
     }
 
-    return await response.json();
+    // Tenta fazer parse do JSON, mas se a resposta estiver vazia, retorna sucesso mesmo assim
+    try {
+      const data = await response.json();
+      console.log('DEBUG iniciarPix - Resposta:', data);
+      return data;
+    } catch (e) {
+      console.log('DEBUG iniciarPix - Resposta vazia, mas 200 OK. Continuando...');
+      return { success: true };
+    }
   },
 
   confirmarPix: async (token, valor, chaveDestino, dadosSensor) => {
+    const payload = { valor, chaveDestino, dadosSensor };
+    
     const response = await fetch(`${API_URL}/api/pix/confirmar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': token
       },
-      body: JSON.stringify({ valor, chaveDestino, dadosSensor })
+      body: JSON.stringify(payload)
     });
 
     const data = await response.json();
