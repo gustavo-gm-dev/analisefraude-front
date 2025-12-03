@@ -1,6 +1,6 @@
 # 🏦 AnáliseFraude - Simulador de Fraude Bancária
 
-Um aplicativo mobile web que simula um sistema bancário com análise de fraude em tempo real, desenvolvido em React com design moderno inspirado no Bradesco.
+Um aplicativo mobile web que simula um sistema bancário com análise de fraude em tempo real, desenvolvido em React + Tailwind CSS com design moderno inspirado em aplicativos bancários modernos.
 
 ## 📋 Sumário
 
@@ -13,7 +13,6 @@ Um aplicativo mobile web que simula um sistema bancário com análise de fraude 
 - [APIs](#apis)
 - [Sistema de Notificações](#sistema-de-notificações)
 - [Validações](#validações)
-- [Contribuindo](#contribuindo)
 
 ## 🎯 Visão Geral
 
@@ -26,13 +25,16 @@ O **AnáliseFraude** é uma aplicação que demonstra como sistemas bancários m
 ### 🔐 Autenticação
 - Login com CPF e Senha
 - Suporte a Login com Biometria
-- Gerenciamento de sessão
+- Gerenciamento de sessão com JWT
 - Logout seguro
 
 ### 💳 Transferências PIX
-- Interface intuitiva para transferências
+- Interface intuitiva e responsiva
 - Validação de valor e chave PIX em tempo real
-- Simulação de diferentes comportamentos de dispositivo
+- Simulação de 3 cenários diferentes:
+  - 📱 Celular na mão (Normal)
+  - 🚨 Celular na mesa (Suspeito)
+  - 🤖 Emulador/Bot (Suspeito)
 
 ### 🚨 Detecção de Fraude
 - Análise de padrões de aceleração do dispositivo
@@ -41,34 +43,37 @@ O **AnáliseFraude** é uma aplicação que demonstra como sistemas bancários m
 - Análise de localização e padrões de uso
 
 ### 💬 Sistema de Notificações
-- Notificações toast com 4 tipos (sucesso, erro, warning, info)
+- Toast notifications com 4 tipos (sucesso, erro, warning, info)
 - Auto-desaparição configurável
 - Animações suaves
+- Sistema de contexto para fácil uso
 
 ### 📱 Design Responsivo
 - Layout tipo smartphone (375x812px)
-- Notch e home indicator
-- Barra de status funcional
-- Design inspirado no Bradesco
+- Notch e home indicator funcional
+- Barra de status com informações
+- Tailwind CSS para styling moderno
 
 ## 🛠️ Tecnologias
 
 ### Frontend
-- **React 18.2.0** - Biblioteca UI
+- **React 18.2.0** - Biblioteca UI moderna
+- **Tailwind CSS 3.3.0** - Utility-first CSS framework
 - **React Hooks** - Gerenciamento de estado
-- **Context API** - Gerenciamento global
-- **CSS3** - Styling e animações
+- **Context API** - Gerenciamento global (Auth, Notifications)
+- **CSS3** - Animações customizadas
 
 ### Backend (Integração)
 - API REST em `http://localhost:8080`
 - Endpoints:
-  - `POST /auth/login` - Autenticação
-  - `POST /api/pix/iniciar` - Iniciar fluxo PIX
-  - `POST /api/pix/confirmar` - Confirmar transação
+  - `POST /auth/login` - Autenticação com CPF/Senha
+  - `POST /api/pix/iniciar` - Iniciar fluxo PIX (obrigatório)
+  - `POST /api/pix/confirmar` - Confirmar transação PIX
 
 ### Build & Deploy
 - **Create React App** - Scaffolding
 - **npm** - Gerenciador de pacotes
+- **PostCSS** - Processamento de CSS com Tailwind
 
 ## 🚀 Instalação
 
@@ -90,15 +95,16 @@ cd analisefraude-front
 npm install
 ```
 
-3. **Configure a API**
-Edite o arquivo `src/utils/helpers.js` se necessário:
+3. **Configure a API** (se necessário)
+Edite `src/utils/helpers.js`:
 ```javascript
 const API_URL = 'http://localhost:8080';
 ```
 
 4. **Inicie o servidor de desenvolvimento**
 ```bash
-npm start
+npm run dev
+# ou npm start
 ```
 
 5. **Acesse no navegador**
@@ -109,62 +115,61 @@ http://localhost:3000
 ## 📖 Como Usar
 
 ### Login
-1. Acesse a tela de login
+1. Abra a aplicação
 2. Use os dados padrão:
    - **CPF:** 12345678900
    - **Senha:** 1234
-3. Escolha o método de login (Senha ou Biometria)
-4. Clique em "Entrar"
+3. Clique em "Entrar"
 
 ### Fazer uma Transferência
-1. Na home, clique em "Transferência"
+1. Na home, clique no botão "Transferência"
 2. Preencha:
    - **Valor:** Ex: 100.00
-   - **Chave PIX:** CPF, Email ou Telefone
-   - **Tipo de Acesso:** Escolha um cenário para simular
+   - **Chave PIX:** CPF, Email ou Telefone (mín. 3 caracteres)
+   - **Tipo de Acesso:** Selecione um cenário
 3. Clique em "Confirmar Transação"
+4. Veja o resultado (Aprovada ou Suspeita)
 
 ### Cenários de Teste
-- **📱 Celular na mão (Normal):** Padrão normal de uso
-- **🚨 Celular na mesa (Suspeito):** Comportamento anômalo
-- **🤖 Emulador/Bot (Suspeito):** Atividade automatizada
-
-### Interpretar Resultado
-- **✅ Aprovada:** Transação passou nas validações
-- **⚠️ Suspeita:** Bloqueada por motivo de segurança
+- **📱 Celular na mão (Normal):** Padrão normal com aceleração realista
+- **🚨 Celular na mesa (Suspeito):** Comportamento estático
+- **🤖 Emulador/Bot (Suspeito):** Valores zerados (emulador)
 
 ## 📁 Estrutura do Projeto
 
 ```
 analisefraude-front/
 ├── public/
-│   └── index.html              # HTML principal
+│   └── index.html                 # HTML principal
 ├── src/
 │   ├── components/
-│   │   ├── AppContainer.js     # Componente raiz
-│   │   ├── AppContainer.css    # Estilos do container
-│   │   ├── Notification.js     # Toast de notificação
+│   │   ├── AppContainer.js        # Container principal com navegação
+│   │   ├── Notification.js        # Componente de toast
 │   │   ├── NotificationContainer.js
 │   │   └── screens/
-│   │       ├── LoginScreen.js
-│   │       ├── HomeScreen.js
-│   │       ├── PixScreen.js
-│   │       └── ResultScreen.js
+│   │       ├── LoginScreen.js     # Tela de autenticação
+│   │       ├── HomeScreen.js      # Menu principal
+│   │       ├── PixScreen.js       # Formulário de transferência
+│   │       └── ResultScreen.js    # Resultado da transação
 │   ├── contexts/
-│   │   ├── AuthContext.js      # Contexto de autenticação
-│   │   └── NotificationContext.js  # Contexto de notificações
+│   │   ├── AuthContext.js         # Contexto de autenticação
+│   │   └── NotificationContext.js # Contexto de notificações
 │   ├── utils/
-│   │   └── helpers.js          # Validadores e API Service
-│   ├── App.js                  # Componente principal
-│   ├── index.js                # Entry point
-│   └── index.css               # Estilos globais
+│   │   └── helpers.js             # Validadores, mapeadores e API Service
+│   ├── App.js                     # Componente raiz
+│   ├── index.js                   # Entry point
+│   └── index.css                  # Estilos globais + Tailwind
 ├── package.json
+├── tailwind.config.js             # Configuração Tailwind
+├── postcss.config.js              # Configuração PostCSS
 └── README.md
 ```
 
 ## 🔌 APIs
 
 ### POST /auth/login
+Autentica o usuário e retorna um JWT token.
+
 **Request:**
 ```json
 {
@@ -174,15 +179,15 @@ analisefraude-front/
 }
 ```
 
-**Response (Success):**
+**Response (Sucesso - 200):**
 ```json
 {
-  "token": "jwt_token_aqui",
+  "token": "eyJhbGc...",
   "usuario": { "cpf": "12345678900" }
 }
 ```
 
-**Response (Error):**
+**Response (Erro - 401):**
 ```json
 {
   "erro": "CPF ou senha incorretos"
@@ -190,22 +195,31 @@ analisefraude-front/
 ```
 
 ### POST /api/pix/iniciar
+**IMPORTANTE:** Deve ser chamado ANTES de confirmar uma transação!
+
 **Headers:**
 ```
-Authorization: jwt_token_aqui
+Authorization: <jwt_token>
 ```
 
-**Response:**
+**Response (Sucesso - 200):**
+```json
+{}
+```
+
+**Response (Erro - 401):**
 ```json
 {
-  "sessaoId": "abc123"
+  "erro": "Token inválido"
 }
 ```
 
 ### POST /api/pix/confirmar
+Confirma a transação e retorna análise de fraude.
+
 **Headers:**
 ```
-Authorization: jwt_token_aqui
+Authorization: <jwt_token>
 Content-Type: application/json
 ```
 
@@ -222,26 +236,27 @@ Content-Type: application/json
 }
 ```
 
-**Response (Aprovado):**
+**Response (Aprovada - 200):**
 ```json
 {
-  "transacaoId": "TRX123456",
-  "valor": 100.00,
-  "status": "aprovada"
+  "transacaoId": 123,
+  "status": "APROVADA",
+  "valor": 100.00
 }
 ```
 
-**Response (Suspeito):**
+**Response (Suspeita - 200):**
 ```json
 {
-  "motivo": "VELOCIDADE_NAVEGACAO_SUSPEITA",
-  "status": "suspeita"
+  "transacaoId": 456,
+  "status": "SUSPEITA",
+  "motivo": "DETECCAO_BOT"
 }
 ```
 
 ## 💬 Sistema de Notificações
 
-### Usar Notificações em Componentes
+### Usar em Componentes
 
 ```javascript
 import { useNotification } from '../contexts/NotificationContext';
@@ -249,48 +264,93 @@ import { useNotification } from '../contexts/NotificationContext';
 function MyComponent() {
   const { success, error, warning, info } = useNotification();
 
-  // Sucesso
-  success('✅ Operação realizada!');
-
-  // Erro
-  error('❌ Algo deu errado!');
-
-  // Aviso
-  warning('⚠️ Atenção!');
-
-  // Info
-  info('ℹ️ Informação importante');
+  return (
+    <button onClick={() => success('✅ Sucesso!')}>
+      Notificar
+    </button>
+  );
 }
 ```
 
-### Tipos de Notificação
+### Tipos Disponíveis
 
-| Tipo | Cor | Uso |
-|------|-----|-----|
-| success | Verde | Ações bem-sucedidas |
-| error | Vermelho | Erros e validações |
-| warning | Rosa | Avisos |
-| info | Vermelho escuro | Informações |
+| Tipo | Cor | Ícone | Uso |
+|------|-----|-------|-----|
+| success | Verde | ✅ | Ações bem-sucedidas |
+| error | Vermelho | ❌ | Erros e falhas |
+| warning | Rosa | ⚠️ | Avisos |
+| info | Azul | ℹ️ | Informações |
 
 ## ✅ Validações
 
 ### CPF
-- Deve conter 11 dígitos
+- Exatamente 11 dígitos
 - Remove caracteres especiais automaticamente
+- Erro: "CPF deve conter 11 dígitos"
 
 ### Senha
 - Mínimo de 4 caracteres
-- Obrigatória
+- Erro: "Senha deve ter pelo menos 4 caracteres"
 
 ### Valor PIX
-- Deve ser maior que zero
-- Apenas números e decimais
+- Maior que zero
+- Aceita decimais
+- Erro: "Digite um valor válido maior que zero"
 
 ### Chave PIX
 - Mínimo de 3 caracteres
 - Pode ser CPF, Email ou Telefone
+- Erro: "Digite uma chave PIX válida"
 
-### Motivos de Fraude Detectados
+## 🎨 Paleta de Cores
+
+Configurada em `tailwind.config.js`:
+
+```javascript
+colors: {
+  primary: '#e94560',
+  'primary-dark': '#f45c43',
+  success: '#38ef7d',
+  'success-dark': '#11998e',
+  error: '#f45c43',
+  'error-dark': '#eb3349',
+  warning: '#ffd700',
+}
+```
+
+## 🔐 Segurança
+
+### Implementado
+- ✅ Validação de entrada em cliente
+- ✅ Autenticação com JWT
+- ✅ Headers Content-Type
+- ✅ CORS configurável
+- ✅ Logout com limpeza de token
+
+### Recomendações
+- [ ] Implementar refresh token
+- [ ] Usar HTTPS em produção
+- [ ] Adicionar rate limiting no backend
+- [ ] Implementar CSP headers
+
+## 🧪 Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+npm run dev
+npm start
+
+# Build para produção
+npm run build
+
+# Testes
+npm test
+
+# Eject (não recomendado)
+npm run eject
+```
+
+## 📊 Motivos de Fraude
 
 | Código | Mensagem |
 |--------|----------|
@@ -306,53 +366,11 @@ function MyComponent() {
 | LIMITE_EXCEDIDO | Limite de transações excedido |
 | POSICAO_INCOMUM_VALOR_ALTO | Posição incomum para valor alto |
 
-## 🎨 Design & UX
-
-### Paleta de Cores
-- **Primária:** #e94560 → #f45c43 (Vermelho/Laranja)
-- **Fundo:** #f5f5f5 (Cinza claro)
-- **Sucesso:** #11998e → #38ef7d (Verde)
-- **Erro:** #eb3349 → #f45c43 (Vermelho)
-
-### Responsividade
-- Viewport: 375x812px (iPhone)
-- Notch de 30px
-- Home indicator de 34px
-- Status bar de 44px
-
-## 🔐 Segurança
-
-### Práticas Implementadas
-- ✅ Validação de entrada em cliente
-- ✅ Token JWT para autenticação
-- ✅ Headers de Content-Type
-- ✅ CORS configurado no backend
-- ✅ Dados sensíveis não armazenados localmente
-
-### Melhorias Recomendadas
-- [ ] Adicionar refresh token
-- [ ] Implementar rate limiting
-- [ ] Usar HTTPS em produção
-- [ ] Adicionar CSP headers
-- [ ] Implementar 2FA
-
-## 📊 Contextos & Hooks
-
-### AuthContext
-```javascript
-const { token, user, login, logout } = useAuth();
-```
-
-### NotificationContext
-```javascript
-const { notifications, success, error, warning, info, clearAll } = useNotification();
-```
-
 ## 🚀 Deploy
 
-### Vercel
+### Vercel (Recomendado)
 ```bash
-npm install -g vercel
+npm i -g vercel
 vercel
 ```
 
@@ -372,76 +390,52 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-## 📈 Performance
-
-- **Lazy Loading:** Componentes carregam sob demanda
-- **Memoization:** React.memo para componentes otimizados
-- **Code Splitting:** Suportado automaticamente pelo CRA
-
-## 🧪 Testes
-
-Para adicionar testes:
-
-```bash
-npm test
-```
-
-Exemplo de teste:
-```javascript
-import { render, screen } from '@testing-library/react';
-import LoginScreen from './LoginScreen';
-
-test('renderiza formulário de login', () => {
-  render(<LoginScreen />);
-  expect(screen.getByText(/acesse sua conta/i)).toBeInTheDocument();
-});
-```
-
 ## 🐛 Troubleshooting
 
-### Erro de Conexão com API
-- Verifique se o backend está rodando em `http://localhost:8080`
-- Confira CORS no backend
+### Erro: "Module not found: Can't resolve './App.css'"
+- Já foi corrigido! `App.css` foi removido do projeto
+- Se persistir, limpe cache: `npm cache clean --force`
+
+### API retorna 403
+- Verifique CORS no backend
+- Confirme que token é válido
+- Veja console do navegador (F12) para mais detalhes
 
 ### Notificações não aparecem
-- Verifique se `NotificationContainer` está dentro de `NotificationProvider`
-- Confira z-index do container
+- Verifique se `NotificationProvider` envolve `AppContainer`
+- Confirme z-index em `index.css` (deve ser `z-[9999]`)
 
-### Estilo não aplicado
-- Limpe cache: `npm cache clean --force`
-- Reinicie servidor: `npm start`
+### Fluxo incompleto (erro 400)
+- Garanta que chamou `/api/pix/iniciar` ANTES de confirmar
+- `HomeScreen.js` já faz isso automaticamente ao clicar em "Transferência"
 
 ## 🤝 Contribuindo
 
-Contribuições são bem-vindas! Para contribuir:
+Contribuições são bem-vindas!
 
-1. Faça um Fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+1. Fork do projeto
+2. Branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit (`git commit -m 'Add AmazingFeature'`)
+4. Push (`git push origin feature/AmazingFeature`)
+5. Pull Request
 
 ## 📝 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+MIT License - veja LICENSE para detalhes
 
 ## 📞 Suporte
 
-Para dúvidas ou reportar bugs, abra uma issue no repositório.
-
-- **Email:** dev@analisefraude.com
 - **Issues:** [GitHub Issues](https://github.com/gustavo-gm-dev/analisefraude-front/issues)
-- **Documentação:** [Wiki](https://github.com/gustavo-gm-dev/analisefraude-front/wiki)
 
-## 🎓 Recursos de Aprendizado
+## 📚 Recursos
 
-- [React Documentation](https://react.dev)
-- [Context API Guide](https://react.dev/reference/react/useContext)
+- [React Docs](https://react.dev)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Context API](https://react.dev/reference/react/useContext)
 - [React Hooks](https://react.dev/reference/react/hooks)
-- [CSS Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
 
 ---
 
-**Desenvolvido com ❤️ por Gustavo GM Dev**
+**Desenvolvido com ❤️ por Lucas Rosa**
 
-**Última atualização:** 19 de Novembro de 2025
+**Última atualização:** Dezembro de 2025

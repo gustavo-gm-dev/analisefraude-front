@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import './App.css';
 import { NotificationProvider } from './contexts/NotificationContext';
 import AppContainer from './components/AppContainer';
 import { AuthProvider } from './contexts/AuthContext';

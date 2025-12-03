@@ -12,7 +12,7 @@ html, body, #root {
 }
 
 body {
-  @apply bg-gradient-to-br from-primary to-primary-dark flex justify-center items-center min-h-screen p-5;
+  @apply bg-gray-400 flex justify-center items-center min-h-screen p-5;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -194,7 +194,7 @@ body {
   }
 
   .notification-container {
-    @apply fixed top-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2.5 w-full max-w-96 px-2.5;
+    @apply fixed top-20 left-1/2 transform -translate-x-1/2 z-[9999] flex flex-col gap-2.5 w-full max-w-96 px-2.5;
   }
 
   .notification {
