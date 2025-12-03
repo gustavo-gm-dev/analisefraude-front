@@ -93,21 +93,15 @@ export const apiService = {
       headers: { 'Authorization': token }
     });
 
-    console.log('DEBUG iniciarPix - Status:', response.status);
-    console.log('DEBUG iniciarPix - OK:', response.ok);
-    
     if (!response.ok) {
-      console.error('DEBUG iniciarPix - Erro! Status:', response.status);
       throw new Error(`Erro ao iniciar PIX: ${response.status}`);
     }
 
     // Tenta fazer parse do JSON, mas se a resposta estiver vazia, retorna sucesso mesmo assim
     try {
       const data = await response.json();
-      console.log('DEBUG iniciarPix - Resposta:', data);
       return data;
     } catch (e) {
-      console.log('DEBUG iniciarPix - Resposta vazia, mas 200 OK. Continuando...');
       return { success: true };
     }
   },

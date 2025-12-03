@@ -14,12 +14,9 @@ const HomeScreen = ({ onGoToPix, onLogout }) => {
     info('⏳ Preparando transferência...');
 
     try {
-      console.log('DEBUG - Chamando iniciarPix com token:', token);
       await apiService.iniciarPix(token);
-      console.log('DEBUG - iniciarPix sucesso! Indo para PIX...');
       onGoToPix();
     } catch (err) {
-      console.error('DEBUG - Erro na iniciarPix:', err);
       error('❌ Erro ao iniciar PIX. Tente novamente.');
     } finally {
       setLoading(false);
